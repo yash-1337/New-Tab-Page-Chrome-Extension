@@ -1,0 +1,156 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    background: url('images/background.png') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
+.main-content {
+    color: #fefefe;
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#time {
+    font-size: 108pt;
+    font-weight: lighter;
+    display: inline;
+}
+
+#am-pm {
+    display: inline;
+    font-weight: lighter;
+}
+
+#greeting {
+    font-size: 32pt;
+    font-weight: lighter;
+}
+
+.toolbar {
+    color: lightgray;
+    margin-top: 10px;
+    margin-left: 5px;
+    font-size: 14pt;
+}
+
+i {
+    margin: 10px;
+    font-size: 14pt;
+}
+
+i:hover {
+    color: white;
+}
+
+input {
+    outline: none;
+    font-size: 12pt;
+}
+
+#search-bar {
+    display: none;
+    color: white;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    width: 250px;
+}
+
+.weather {
+    color: lightgray;
+    position: fixed;
+    top: 10px;
+    right: 50px;
+    text-align: center;
+}
+
+#temp {
+    font-weight: lighter;
+    font-size: 20pt;
+    margin-top: auto;
+    margin-bottom: 5px;
+}
+
+#location {
+    font-weight: lighter;
+    font-size: 12pt;
+    margin-top: 5px;
+}
+
+#settings-btn {
+    transition: 0.5s;
+}
+
+.settings-area {
+    color: lightgray;
+    margin-left: 10px;
+    position: fixed;
+    bottom: 10px;
+}
+
+.settings-content {
+    display: none;
+    width: 35%;
+    height: 50%;
+    background-color: #111;
+    position: fixed;
+    bottom: 50px;
+    left: 5px;
+    opacity: 0.9;
+}
+
+.setting {
+    padding: 10px;
+}
+
+.settingsLabels {
+    font-weight: lighter;
+    font-size: 12pt;
+}
+
+.settingsOption {
+    font-weight: lighter;
+    font-size: 12pt;
+    float: right;
+    margin: 5px;
+}
+
+.settingsInputBox {
+    color: white;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    width: 45%;
+}
+
+.enabled {
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+.settings-title-content {
+    text-align: center;
+}
+
+#closeSettings {
+    position: absolute;
+    top: 13px;
+    right: 5px;
+}
+
+.date-content {
+    position: fixed;
+    bottom: 10px;
+    right: 20px;
+    color: lightgray;
+}
+
+#date {
+    font-weight: lighter;
+    font-size: 12pt;
+}
