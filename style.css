@@ -43,8 +43,9 @@ i {
     font-size: 14pt;
 }
 
-i:hover {
+i:hover, i:focus {
     color: white;
+    cursor: pointer;
 }
 
 input {
