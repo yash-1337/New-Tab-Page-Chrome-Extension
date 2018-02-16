@@ -6,8 +6,10 @@ let settings = {
     name: "",
     units: "imperial",
     timeformat: "h:mm",
+    showAMPM: true,
     showDate: true,
-    showWeather: true
+    showWeather: true,
+    goal: {}
 };
 
 chrome.storage.sync.get(function (data) {
@@ -19,8 +21,20 @@ chrome.storage.sync.get(function (data) {
             settings = data.settings;
             $("#time").text(moment().format(settings.timeformat));
 
+            // || data.setting.date != moment().format('l')
+
+            if (!data.settings.goal || data.settings.goal.date != moment().format('L')) {
+                settings.goal = {};
+                saveSettings();
+            }
+
             if (settings.timeformat === "h:mm") {
-                $("#am-pm").text(moment().format('A'));
+                if (settings.showAMPM) {
+                    $("#am-pm").text(moment().format('A'));
+                    $('#YesAMPMSetting').addClass('enabled');
+                } else {
+                    $('#NoAMPMSetting').addClass('enabled');
+                }
             }
 
             if (settings.name != '') {
@@ -57,8 +71,25 @@ chrome.storage.sync.get(function (data) {
             } else {
                 $('#YesWeatherSetting').addClass('enabled');
             }
+
+            if (settings.goal.title) {
+                $('#goal-question').fadeOut(10);
+                $('#goal-input').fadeOut(10, function () {
+                    $('#goal-name').html(settings.goal.title);
+                    $('.goal').fadeIn(10);
+                });
+
+                if (settings.goal.done) {
+                    $('#finish-goal').removeClass('far');
+                    $('#finish-goal').removeClass('fa-square');
+                    $('#finish-goal').addClass('fas');
+                    $('#finish-goal').addClass('fa-check-square');
+                }
+            }
+
         } else {
             $('#12hrSetting').addClass('enabled');
+            $('#YesAMPMSetting').addClass('enabled');
             $('#YesDateSetting').addClass('enabled');
             $('#YesWeatherSetting').addClass('enabled');
             $('#fahrenheitSetting').addClass('enabled');
@@ -66,6 +97,16 @@ chrome.storage.sync.get(function (data) {
 
     }
 });
+
+function saveSettings() {
+    chrome.storage.sync.set({
+        'settings': settings
+    }, function () {
+        if (chrome.runtime.error) {
+            console.log("Runtime error.");
+        }
+    });
+}
 
 function getGreetingTime(m) {
     let g = null;
@@ -98,9 +139,16 @@ function showWeatherAndLocation() {
 
                 let url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=9db6b2fe521e01cec0ac950bbda8645c&units=" + settings.units;
                 $.get(url, function (data) {
-                    let temperature = data.main.temp;
+                    let temperature = Math.round(data.main.temp);
                     let city = data.name;
-                    $("#temp").html(temperature + "&#176;");
+
+                    if (settings.units === "imperial") {
+                        $("#temp").html(temperature + "&#176;F");
+                    }
+
+                    if (settings.units === "metric") {
+                        $("#temp").html(temperature + "&#176;C");
+                    }
                     $("#location").html(city);
                 });
 
@@ -111,13 +159,7 @@ function showWeatherAndLocation() {
 
 $("#nameSetting").change(function () {
     settings.name = $(this).val();
-    chrome.storage.sync.set({
-        'settings': settings
-    }, function () {
-        if (chrome.runtime.error) {
-            console.log("Runtime error.");
-        }
-    });
+    saveSettings();
 });
 
 showWeatherAndLocation();
@@ -130,7 +172,11 @@ setInterval(function () {
     }
 
     if (settings.timeformat === "h:mm") {
-        $("#am-pm").text(moment().format('A'));
+        if (settings.showAMPM) {
+            $("#am-pm").text(moment().format('A'));
+        } else {
+            $("#am-pm").text('');
+        }
     } else {
         $("#am-pm").text('');
     }
@@ -160,22 +206,27 @@ $(document).mouseup(function (e) {
     }
 
     if (e.target.id === $('#settings-btn').attr('id')) {
-        if ($('.settings-content').css('display') === 'none') {
-            $('#settings-btn').css("transform", "rotate(60deg)");
-            $('#settings-btn').css("font-size", "16pt");
-        }
+
         if ($('.settings-content').css('display') === 'block') {
             $('#settings-btn').css("transform", "rotate(0deg)");
             $('#settings-btn').css("font-size", "14pt");
+        }
+        if ($('.settings-content').css('display') === 'none') {
+            $('#settings-btn').css("transform", "rotate(60deg)");
+            $('#settings-btn').css("font-size", "15pt");
         }
 
         $('.settings-content').toggle(500);
     }
     if (e.target.id != $('#settings-btn').attr('id') && !$(e.target).hasClass('settings-content') && !$(e.target).parents(".settings-content").length) {
         $('.settings-content').hide(500);
+        $('#settings-btn').css("transform", "rotate(0deg)");
+        $('#settings-btn').css("font-size", "14pt");
     }
     if (e.target.id === $('#closeSettings').attr('id')) {
         $('.settings-content').hide(500);
+        $('#settings-btn').css("transform", "rotate(0deg)");
+        $('#settings-btn').css("font-size", "14pt");
     }
 });
 
@@ -229,12 +280,72 @@ $('.settingsOptions .settingsOption').click(function (e) {
         $('.date-content').fadeIn(500);
         $("#date").text(moment().format("dddd, MMM Do"));
     }
+    if (e.target.id === $('#NoAMPMSetting').attr('id')) {
+        settings.showAMPM = false;
+    }
+    if (e.target.id === $('#YesAMPMSetting').attr('id')) {
+        settings.showAMPM = true;
+    }
+    saveSettings();
+});
 
-    chrome.storage.sync.set({
-        'settings': settings
-    }, function () {
-        if (chrome.runtime.error) {
-            console.log("Runtime error.");
-        }
+$('#goal-input').change(function () {
+    settings.goal = {
+        title: $(this).val(),
+        done: false,
+        date: moment().format('L')
+    };
+    $('#goal-question').fadeOut(100);
+    $(this).fadeOut(100, function () {
+        $('#goal-name').html(settings.goal.title);
+        $('.goal').fadeIn(100);
     });
+
+    saveSettings();
+
+});
+
+$('.goal-content').hover(function () {
+
+    $('#finish-goal').fadeIn(200);
+    $('#delete-goal').fadeIn(200);
+
+}, function () {
+    $('#finish-goal').fadeOut(200);
+    $('#delete-goal').fadeOut(200);
+});
+
+
+$('body').on('click', '#finish-goal', function () {
+    $(this).toggleClass('far');
+    $(this).toggleClass('fa-square');
+    $(this).toggleClass('fas');
+    $(this).toggleClass('fa-check-square');
+
+    if (!settings.goal.done) {
+        settings.goal.done = true;
+
+    } else {
+        settings.goal.done = false;
+    }
+
+    saveSettings();
+
+});
+
+$('body').on('click', '#delete-goal', function () {
+    settings.goal = {};
+    $('.goal').fadeOut(100, function () {
+        $('#finish-goal').addClass('far');
+        $('#finish-goal').addClass('fa-square');
+        $('#finish-goal').removeClass('fas');
+        $('#finish-goal').removeClass('fa-check-square');
+        $('#goal-name').html('');
+        $('#goal-input').val('');
+        $('#goal-question').fadeIn(100);
+        $('#goal-input').fadeIn(100);
+    });
+
+    saveSettings();
+
 });

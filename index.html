@@ -13,8 +13,6 @@
 
 <body>
 
-    <div class="bg"></div>
-
     <div class="toolbar">
         <i class="fab fa-chrome" id="chrome-btn"></i>
         <i class="fas fa-search" id="search-btn"></i>
@@ -30,6 +28,17 @@
         <h1 id="time"></h1>
         <h1 id="am-pm"></h1>
         <h1 id="greeting"></h1>
+    </div>
+
+    <div class="goal-content">
+        <h1 id="goal-question">What is your main focus for today?</h1>
+        <input type="text" id="goal-input">
+        <div class="goal">
+            <h1 id="goal-title">TODAY</h1>
+            <i class="far fa-square" id="finish-goal"></i>
+            <h1 id="goal-name"></h1>
+            <i class="fas fa-times" id="delete-goal"></i>
+        </div>
     </div>
 
     <div class="date-content">
@@ -54,6 +63,13 @@
                 <span class="settingsOptions">
                     <label class="settingsOption" id="24hrSetting">24 hr</label>
                     <label class="settingsOption" id="12hrSetting">12 hr</label>
+                </span>
+            </div>
+            <div class="setting">
+                <label class="settingsLabels">Show AM/PM:</label>
+                <span class="settingsOptions">
+                    <label class="settingsOption" id="NoAMPMSetting">No</label>
+                    <label class="settingsOption" id="YesAMPMSetting">Yes</label>
                 </span>
             </div>
             <div class="setting">

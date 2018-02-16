@@ -6,17 +6,17 @@ body {
 }
 
 .main-content {
-    color: #fefefe;
+    color: white;
     text-align: center;
-    margin: 0;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    margin: auto;
+    top: 25%;
+    right: 0;
+    left: 0;
 }
 
 #time {
-    font-size: 108pt;
+    font-size: 128pt;
     font-weight: lighter;
     display: inline;
 }
@@ -27,7 +27,7 @@ body {
 }
 
 #greeting {
-    font-size: 32pt;
+    font-size: 36pt;
     font-weight: lighter;
 }
 
@@ -43,7 +43,8 @@ i {
     font-size: 14pt;
 }
 
-i:hover, i:focus {
+i:hover,
+i:focus {
     color: white;
     cursor: pointer;
 }
@@ -121,12 +122,21 @@ input {
     margin: 5px;
 }
 
+.settingsOption:hover {
+    color: white;
+    cursor: pointer;
+}
+
 .settingsInputBox {
     color: white;
     background: transparent;
     border: none;
     border-bottom: 2px solid white;
     width: 45%;
+}
+
+.settingsInputBox:hover {
+    cursor: text;
 }
 
 .enabled {
@@ -154,4 +164,61 @@ input {
 #date {
     font-weight: lighter;
     font-size: 12pt;
+}
+
+.goal-content {
+    color: white;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10%;
+}
+
+#goal-input {
+    background: transparent;
+    color: white;
+    font-size: 24pt;
+    text-align: center;
+    border: none;
+    border-bottom: 2px solid white;
+    width: 33%;
+}
+
+#goal-question {
+    font-size: 22pt;
+    font-weight: lighter;
+}
+
+.goal {
+    display: none;
+}
+
+#goal-title {
+    font-size: 16pt;
+}
+
+#goal-name {
+    font-size: 28pt;
+    font-weight: lighter;
+    display: inline;
+}
+
+#delete-goal {
+    display: none;
+    margin: 0;
+    margin-left: 10px;
+    font-size: 11pt;
+    position: relative;
+    left: 5px;
+    bottom: 5px;
+}
+
+#finish-goal {
+    display: none;
+    margin: 0;
+    font-size: 18pt;
+    position: relative;
+    right: 15px;
+    bottom: 3px;
 }
