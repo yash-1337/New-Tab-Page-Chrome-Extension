@@ -2,6 +2,8 @@ String.prototype.replaceAll = function (target, replacement) {
     return this.split(target).join(replacement);
 };
 
+let currentDate = moment().format('L');
+
 let settings = {
     name: "",
     units: "imperial",
@@ -27,7 +29,7 @@ chrome.storage.sync.get(function (data) {
             settings = data.settings;
             $("#time").text(moment().format(settings.timeformat));
 
-            if (!data.settings.goal || data.settings.goal.date != moment().format('L')) {
+            if (!data.settings.goal || data.settings.goal.date != currentDate) {
                 settings.goal = {};
                 saveSettings();
             }
@@ -114,6 +116,23 @@ function saveSettings() {
     });
 }
 
+function resetGoal() {
+    settings.goal = {};
+    $('.goal').fadeOut(100, function () {
+        $('#finish-goal').addClass('far');
+        $('#finish-goal').addClass('fa-square');
+        $('#finish-goal').removeClass('fas');
+        $('#finish-goal').removeClass('fa-check-square');
+        $('#goal-name').css('text-decoration', 'none');
+        $('#goal-name').html('');
+        $('#goal-input').val('');
+        $('#goal-question').fadeIn(100);
+        $('#goal-input').fadeIn(100);
+    });
+
+    saveSettings();
+}
+
 function getGreetingTime(m) {
     let g = null;
 
@@ -174,6 +193,7 @@ $("#nameSetting").change(function () {
 showWeatherAndLocation();
 
 setInterval(function () {
+    currentDate = moment().format('L');
     $("#time").text(moment().format(settings.timeformat));
 
     if (settings.showDate) {
@@ -195,9 +215,8 @@ setInterval(function () {
         $("#greeting").text("Good " + getGreetingTime(moment()) + ".");
     }
 
-    if (settings.goal.date != moment().format('L')) {
-        settings.goal = {};
-        saveSettings();
+    if (settings.goal.title && settings.goal.date != currentDate) {
+        resetGoal();
     }
 
 }, 1000);
@@ -359,19 +378,5 @@ $('body').on('click', '#finish-goal', function () {
 });
 
 $('body').on('click', '#delete-goal', function () {
-    settings.goal = {};
-    $('.goal').fadeOut(100, function () {
-        $('#finish-goal').addClass('far');
-        $('#finish-goal').addClass('fa-square');
-        $('#finish-goal').removeClass('fas');
-        $('#finish-goal').removeClass('fa-check-square');
-        $('#goal-name').css('text-decoration', 'none');
-        $('#goal-name').html('');
-        $('#goal-input').val('');
-        $('#goal-question').fadeIn(100);
-        $('#goal-input').fadeIn(100);
-    });
-
-    saveSettings();
-
+    resetGoal();
 });
