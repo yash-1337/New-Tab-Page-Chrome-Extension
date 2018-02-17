@@ -360,6 +360,7 @@ $('body').on('click', '#delete-goal', function () {
         $('#finish-goal').addClass('fa-square');
         $('#finish-goal').removeClass('fas');
         $('#finish-goal').removeClass('fa-check-square');
+        $('#goal-name').css('text-decoration', 'none');
         $('#goal-name').html('');
         $('#goal-input').val('');
         $('#goal-question').fadeIn(100);
