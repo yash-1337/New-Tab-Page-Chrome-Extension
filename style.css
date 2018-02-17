@@ -182,7 +182,7 @@ input {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 10%;
+    bottom: 12%;
 }
 
 #goal-input {
@@ -231,4 +231,17 @@ input {
     position: relative;
     right: 15px;
     bottom: 3px;
+}
+
+#goal-compliment {
+    display: none;
+    margin: 0;
+    z-index: 1;
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    right: 0;
+    font-size: 14pt;
+    font-weight: lighter;
+    opacity: 0.85;
 }

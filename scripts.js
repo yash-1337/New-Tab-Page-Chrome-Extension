@@ -84,6 +84,8 @@ chrome.storage.sync.get(function (data) {
                 });
 
                 if (settings.goal.done) {
+                    $('#goal-name').css('text-decoration', 'line-through');
+                    $('#goal-name').css('opacity', '0.85');
                     $('#finish-goal').removeClass('far');
                     $('#finish-goal').removeClass('fa-square');
                     $('#finish-goal').addClass('fas');
@@ -330,10 +332,21 @@ $('body').on('click', '#finish-goal', function () {
     $(this).toggleClass('fa-check-square');
 
     if (!settings.goal.done) {
+        let complimentOptions = ['Good Job!', 'Nice!', 'Great!', 'Awesome!', 'Wow!', 'Well Done!'];
+        let emojiOptions = ['😃', '👍']
         settings.goal.done = true;
+        $('#goal-name').css('text-decoration', 'line-through');
+        $('#goal-name').css('opacity', '0.85');
+        $('#goal-compliment').html(complimentOptions[Math.floor(Math.random() * complimentOptions.length)] + emojiOptions[Math.floor(Math.random() * emojiOptions.length)]);
+        $('#goal-compliment').fadeIn(400);
+        setTimeout(function () {
+            $('#goal-compliment').fadeOut(400);
+        }, 3000);
 
     } else {
         settings.goal.done = false;
+        $('#goal-name').css('text-decoration', 'none');
+        $('#goal-name').css('opacity', '1');
     }
 
     saveSettings();
