@@ -73,8 +73,13 @@ input {
 
 #weather-icon {
     display: inline;
+    font-size: 18pt;
     position: relative;
-    top: 15px;
+}
+
+#weather-icon:hover {
+    color: lightgray;
+    cursor: default;
 }
 
 #temp {
