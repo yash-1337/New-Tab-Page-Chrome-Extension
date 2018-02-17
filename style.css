@@ -71,17 +71,22 @@ input {
     text-align: center;
 }
 
+#weather-icon {
+    display: inline;
+    position: relative;
+    top: 15px;
+}
+
 #temp {
+    display: inline;
     font-weight: lighter;
     font-size: 20pt;
-    margin-top: auto;
-    margin-bottom: 5px;
 }
 
 #location {
     font-weight: lighter;
     font-size: 12pt;
-    margin-top: 5px;
+    margin: 0;
 }
 
 #settings-btn {

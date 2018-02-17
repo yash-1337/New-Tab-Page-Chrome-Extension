@@ -137,17 +137,24 @@ function showWeatherAndLocation() {
                 let latitude = (Math.round(position.coords.latitude * 100) / 100).toFixed(3);
                 let longitude = (Math.round(position.coords.longitude * 100) / 100).toFixed(3);
 
-                let url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=9db6b2fe521e01cec0ac950bbda8645c&units=" + settings.units;
+                // let url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=9db6b2fe521e01cec0ac950bbda8645c&units=" + settings.units;
+                let url = "http://api.openweathermap.org/data/2.5/weather?lat=" + 35 + "&lon=" + 139 + "&appid=9db6b2fe521e01cec0ac950bbda8645c&units=" + settings.units;
+
                 $.get(url, function (data) {
+
+                    let iconUrl = 'http://openweathermap.org/img/w/' + data.weather[0].icon + '.png';
+
+                    $('#weather-icon').attr('src', iconUrl);
+
                     let temperature = Math.round(data.main.temp);
                     let city = data.name;
 
                     if (settings.units === "imperial") {
-                        $("#temp").html(temperature + "&#176;F");
+                        $("#temp").html(temperature + "&#176;");
                     }
 
                     if (settings.units === "metric") {
-                        $("#temp").html(temperature + "&#176;C");
+                        $("#temp").html(temperature + "&#176;");
                     }
                     $("#location").html(city);
                 });
