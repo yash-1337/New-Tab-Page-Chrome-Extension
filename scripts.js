@@ -195,6 +195,11 @@ setInterval(function () {
         $("#greeting").text("Good " + getGreetingTime(moment()) + ".");
     }
 
+    if (settings.goal.date != moment().format('L')) {
+        settings.goal = {};
+        saveSettings();
+    }
+
 }, 1000);
 
 setInterval(function () {
