@@ -75,6 +75,7 @@ input {
     display: inline;
     font-size: 18pt;
     position: relative;
+    bottom: 1px;
 }
 
 #weather-icon:hover {
