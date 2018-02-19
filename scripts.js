@@ -155,8 +155,18 @@ function getGreetingTime(m) {
     return g;
 }
 
-function setWeatherIcon(code) {
-    let icon = 'wi wi-' + weatherIcons[code].icon;
+function setWeatherIcon(code, sunrise, sunset) {
+    const date = new Date();
+
+    let icon;
+
+    if (date.getHours() >= sunrise.getHours() && date.getHours() < sunset.getHours()) {
+        icon = `wi wi-owm-day-${code}`;
+    } else {
+        icon = `wi wi-owm-night-${code}`;
+    }
+
+
     $('#weather-icon').attr('class', icon);
 
 }
@@ -171,7 +181,11 @@ function showWeatherAndLocation() {
 
                 let url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=9db6b2fe521e01cec0ac950bbda8645c&units=" + settings.units;
                 $.get(url, function (data) {
-                    setWeatherIcon(data.weather[0].id);
+
+                    const sunrise = new Date(data.sys.sunrise * 1000);
+                    const sunset = new Date(data.sys.sunset * 1000);
+
+                    setWeatherIcon(data.weather[0].id, sunrise, sunset);
 
                     let temperature = Math.round(data.main.temp);
                     let city = data.name;
@@ -365,7 +379,7 @@ $('body').on('click', '#finish-goal', function () {
         $('#goal-compliment').fadeIn(400);
         setTimeout(function () {
             $('#goal-compliment').fadeOut(400);
-        }, 3000);
+        }, 2500);
 
     } else {
         settings.goal.done = false;

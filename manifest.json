@@ -8,6 +8,5 @@
     "permissions": [
         "geolocation",
         "storage"
-
     ]
 }
