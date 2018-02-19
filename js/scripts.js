@@ -14,12 +14,6 @@ let settings = {
     goal: {}
 };
 
-let weatherIcons;
-
-$.getJSON('weatherIcons.json', function (data) {
-    weatherIcons = data;
-});
-
 chrome.storage.sync.get(function (data) {
     if (chrome.runtime.error) {
         console.log("Runtime error.");
