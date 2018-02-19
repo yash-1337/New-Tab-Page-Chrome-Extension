@@ -166,7 +166,6 @@ function setWeatherIcon(code, sunrise, sunset) {
         icon = `wi wi-owm-night-${code}`;
     }
 
-
     $('#weather-icon').attr('class', icon);
 
 }
